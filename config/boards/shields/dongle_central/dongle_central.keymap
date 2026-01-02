@@ -6,7 +6,8 @@
         compatible = "zmk,keymap";
         
         default_layer {
-            bindings = <>;
+            // 동글은 키가 없지만 ZMK는 최소 하나의 바인딩이 필요함
+            bindings = <&trans>;
         };
     };
 };
