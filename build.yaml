@@ -11,11 +11,13 @@ include:
   - board: eyelash_corne_left
     shield: nice_view
     artifact-name: corne_left_peripheral
+    cmake-args: -DZMK_EXTRA_CONF_FILES="${GITHUB_WORKSPACE}/config/corne_peripheral.conf"
   
   # Corne 오른쪽 (주변기기)
   - board: eyelash_corne_right
     shield: nice_view
     artifact-name: corne_right_peripheral
+    cmake-args: -DZMK_EXTRA_CONF_FILES="${GITHUB_WORKSPACE}/config/corne_peripheral.conf"
   
   # Adept 마우스 (주변기기)
   - board: seeeduino_xiao_ble
