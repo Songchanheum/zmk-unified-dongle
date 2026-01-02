@@ -8,10 +8,10 @@ manifest:
       url-base: https://github.com/a741725193
 
   projects:
-    # ZMK 메인 프로젝트
+    # ZMK 메인 프로젝트 (안정 버전 고정)
     - name: zmk
       remote: zmkfirmware
-      revision: main
+      revision: v0.3.0
       import: app/west.yml
     
     # Eyelash Corne 보드 정의
