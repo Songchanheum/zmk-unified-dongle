@@ -23,4 +23,5 @@ include:
   - board: seeeduino_xiao_ble
     shield: AdeptBLE
     artifact-name: adept_peripheral
+    cmake-args: -DZMK_EXTRA_CONF_FILES="${GITHUB_WORKSPACE}/config/adept.conf"
 
