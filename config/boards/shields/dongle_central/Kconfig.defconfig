@@ -3,17 +3,5 @@ if SHIELD_DONGLE_CENTRAL
 config ZMK_KEYBOARD_NAME
     default "ZMK Dongle"
 
-config ZMK_BLE_CENTRAL
-    default y
-
-config ZMK_USB
-    default y
-
-config ZMK_SPLIT
-    default y
-
-config ZMK_SPLIT_BLE_CENTRAL_PERIPHERALS
-    default 3
-
 endif
 
