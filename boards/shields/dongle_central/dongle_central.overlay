@@ -1,0 +1,17 @@
+/ {
+    chosen {
+        zmk,kscan = &kscan_composite;
+    };
+
+    kscan_composite: kscan_composite {
+        compatible = "zmk,kscan-composite";
+        label = "KSCAN_COMPOSITE";
+        rows = <0>;
+        columns = <0>;
+    };
+};
+
+&usbd {
+    status = "okay";
+};
+

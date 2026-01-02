@@ -1,0 +1,30 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: badjeff
+      url-base: https://github.com/badjeff
+    - name: eyelash
+      url-base: https://github.com/a741725193
+
+  projects:
+    # ZMK 메인 프로젝트
+    - name: zmk
+      remote: zmkfirmware
+      revision: main
+      import: app/west.yml
+    
+    # Eyelash Corne 보드 정의
+    - name: eyelash_corne
+      remote: eyelash
+      repo-path: zmk-new_corne
+      revision: main
+    
+    # Adept 마우스용 PMW3610 드라이버
+    - name: zmk-pmw3610-driver
+      remote: badjeff
+      revision: main
+
+  self:
+    path: config
+

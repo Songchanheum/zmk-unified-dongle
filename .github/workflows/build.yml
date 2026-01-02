@@ -1,0 +1,88 @@
+name: Build ZMK Unified Dongle Firmware
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # 동글 (중앙)
+          - board: nice_nano_v2
+            shield: dongle_central
+            artifact-name: dongle_central
+          
+          # Corne 왼쪽 (주변기기)
+          - board: eyelash_corne_left
+            shield: nice_view
+            artifact-name: corne_left_peripheral
+          
+          # Corne 오른쪽 (주변기기)
+          - board: eyelash_corne_right
+            shield: nice_view
+            artifact-name: corne_right_peripheral
+          
+          # Adept 마우스 (주변기기)
+          - board: seeeduino_xiao_ble
+            shield: AdeptBLE
+            artifact-name: adept_peripheral
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Cache west modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            modules/
+            tools/
+            zephyr/
+            bootloader/
+            zmk/
+          key: ${{ runner.os }}-west-${{ hashFiles('config/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-west-
+
+      - name: West Init
+        run: west init -l config
+
+      - name: West Update
+        run: west update
+
+      - name: West Zephyr export
+        run: west zephyr-export
+
+      - name: West Build (${{ matrix.board }} - ${{ matrix.shield }})
+        run: |
+          if [ "${{ matrix.shield }}" = "nice_view" ]; then
+            west build -s zmk/app -b ${{ matrix.board }} -- -DSHIELD=${{ matrix.shield }} -DZMK_EXTRA_CONF_FILES="${GITHUB_WORKSPACE}/config/corne_peripheral.conf"
+          else
+            west build -s zmk/app -b ${{ matrix.board }} -- -DSHIELD=${{ matrix.shield }}
+          fi
+
+      - name: Rename artifacts
+        run: |
+          mkdir -p artifacts
+          if [ -f build/zephyr/zmk.uf2 ]; then
+            cp build/zephyr/zmk.uf2 artifacts/${{ matrix.artifact-name }}.uf2
+          fi
+          if [ -f build/zephyr/zmk.hex ]; then
+            cp build/zephyr/zmk.hex artifacts/${{ matrix.artifact-name }}.hex
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: firmware-${{ matrix.artifact-name }}
+          path: artifacts/*
+

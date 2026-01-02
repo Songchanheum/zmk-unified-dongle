@@ -1,0 +1,24 @@
+# ZMK Unified Dongle Build Configuration
+# 동글 모드: 1개 동글 + Corne 2개 + Adept 마우스
+
+include:
+  # 동글 (중앙, USB로 PC 연결, BLE로 3개 주변기기 수신)
+  - board: nice_nano_v2
+    shield: dongle_central
+    artifact-name: dongle_central
+  
+  # Corne 왼쪽 (주변기기)
+  - board: eyelash_corne_left
+    shield: nice_view
+    artifact-name: corne_left_peripheral
+  
+  # Corne 오른쪽 (주변기기)
+  - board: eyelash_corne_right
+    shield: nice_view
+    artifact-name: corne_right_peripheral
+  
+  # Adept 마우스 (주변기기)
+  - board: seeeduino_xiao_ble
+    shield: AdeptBLE
+    artifact-name: adept_peripheral
+
